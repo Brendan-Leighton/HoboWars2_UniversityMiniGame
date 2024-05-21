@@ -8,8 +8,9 @@ function App() {
 	// const [board, setBoard] = useState(createBoard());
 
 	const [board, updateRow, updateCol] = useBoard(createBoard());
+	let highScore = 0;
 
-	console.log('board:: ', board);
+	// console.log('board:: ', board);
 
 
 	function getRandomColor() {
@@ -38,7 +39,7 @@ function App() {
 	}
 
 	function calculateScore(boardToCalc) {
-		console.log('calculateScore -> boardToCalc: ', boardToCalc);
+		// console.log('calculateScore -> boardToCalc: ', boardToCalc);
 		let tempScore = 0;
 
 		let logging = ``;
@@ -49,7 +50,7 @@ function App() {
 				dot.props.children.props.className.split(' ').forEach(className => {
 					if (className === 'red' || className === 'yellow' || className === 'green') {
 						const dotScore = getColorScore(className);
-						console.log(`Calculate Score: ${className} = ${getColorScore(className)}`);
+						// console.log(`Calculate Score: ${className} = ${getColorScore(className)}`);
 						tempScore += dotScore;
 						dotScore === -1 ? logging += ` ${dotScore} ` : logging += `  ${dotScore} `;
 					}
@@ -58,7 +59,9 @@ function App() {
 			logging += ']'
 		})
 
-		console.log(`New Score: ${tempScore}\n${logging}\n`);
+		// console.log(`New Score: ${tempScore}\n${logging}\n`);
+
+		if (tempScore > highScore) highScore = tempScore;
 		return tempScore;
 	}
 
@@ -72,29 +75,6 @@ function App() {
 			</div>
 		)
 	}
-
-	// function renderRowButton(index) {
-	// 	return (
-	// 		<button className={`row${index}`} onClick={() => cycleRow(index)} key={`row_${index}`}><TbRefreshDot /></button>
-	// 	)
-	// }
-
-	// function renderRowButtons() {
-
-	// 	const buttons = [];
-
-	// 	for (let index = 0; index < 4; index++) {
-	// 		buttons.push(renderRowButton(index))
-	// 	}
-
-	// 	return buttons;
-	// }
-
-	// function renderColButton(index) {
-	// 	return (
-	// 		<button className={`col${index}`} onClick={() => cycleCol(index)} key={`col_${index}`}><TbRefreshDot /></button>
-	// 	)
-	// }
 
 	function renderCycleButton(isRowButton, index) {
 
@@ -116,82 +96,25 @@ function App() {
 		return buttons;
 	}
 
-	// function renderColButtons() {
-
-	// 	const buttons = [];
-
-	// 	for (let index = 0; index < 4; index++) {
-	// 		buttons.push(renderColButton(index))
-	// 	}
-
-	// 	return buttons;
-	// }
-
-	// function copyBoard(oldBoard) {
-
-	// 	const newBoard = [];
-	// 	oldBoard.forEach(row => {
-	// 		newBoard.push(row)
-	// 	})
-	// 	return newBoard;
-	// }
-
 	function cycleRow(rowIndex) {
-		console.log(`cycleRow(${rowIndex})`);
+		// console.log(`cycleRow(${rowIndex})`);
 
 		// get dots in row
 		const rowDots = document.querySelectorAll(`[data-row="${rowIndex}"]`)
-		console.log('rowDots', rowDots);
+		// console.log('rowDots', rowDots);
 		const newRow = []
 
 		updateRow(rowDots, rowIndex)
-		// const newBoard = copyBoard(board);
-
-		// rowDots.forEach((dot, colIndex) => {
-		// 	const colorElement = dot.getElementsByClassName('color')[0];
-
-		// 	for (let value of colorElement.classList.values()) {
-		// 		if (value === 'red' || value === 'green' || value === 'yellow') {
-		// 			newRow.push(renderDot(rowIndex, colIndex, cycleColor(value)))
-		// 		}
-		// 	}
-		// })
-
-		// newBoard[rowIndex] = newRow;
-
-		// setBoard(() => [...newBoard])
 	}
 
 	function cycleCol(columnIndex) {
-		console.log(`cycleCol(${columnIndex})`);
+		// console.log(`cycleCol(${columnIndex})`);
 
 		// get dots in col
 		const colDots = document.querySelectorAll(`[data-col="${columnIndex}"]`)
-		console.log('colDots', colDots);
+		// console.log('colDots', colDots);
 
 		updateCol(colDots, columnIndex);
-
-		// const newCol = []
-
-		// colDots.forEach((dot, rowIndex) => {
-		// 	const colorElement = dot.getElementsByClassName('color')[0];
-
-		// 	for (let value of colorElement.classList.values()) {
-		// 		if (value === 'red' || value === 'green' || value === 'yellow') {
-		// 			newCol.push(renderDot(rowIndex, columnIndex, cycleColor(value)))
-		// 		}
-		// 	}
-		// })
-
-		// // this gives the newBoard a new reference - each nested array needs to be copied.
-		// let newBoard = [[...board[0]], [...board[1]], [...board[2]], [...board[3]]];
-
-		// newCol.forEach((dot, rowIndex) => {
-		// 	newBoard[rowIndex][columnIndex] = dot;
-		// })
-		// console.log('cycleCol => newBoard: ', newBoard);
-
-		// setBoard(() => [...newBoard])
 	}
 
 	function cycleColor(currColor) {
@@ -204,12 +127,20 @@ function App() {
 
 	return (
 		<>
-			<div className="score">Score: {calculateScore(board)}</div>
+			<header>
+				<h1>HoboWars2 University Mini-Game</h1>
+			</header>
+			<div className="info">
+				<p>Press the <TbRefreshDot /> button to cycle the colors for adjacent row/column.</p>
+				<p>Colors cycle: <span className="green color-text">Green</span> {'>'} <span className="red color-text">Red</span> {'>'} <span className="yellow color-text">Yellow</span></p>
+			</div>
+			<div className="scores">
+				<div className="score">Score: {calculateScore(board)}</div>
+				<div className="high-score">High Score: {highScore}</div>
+			</div>
 			<div className='grid'>
 				{renderCycleButtons(true)}
 				{renderCycleButtons(false)}
-				{/* {renderRowButtons()} */}
-				{/* {renderColButtons()} */}
 				<div className="board">
 					{board}
 				</div>

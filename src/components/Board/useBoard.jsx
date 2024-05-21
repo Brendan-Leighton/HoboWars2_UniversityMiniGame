@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 export const useBoard = (initialBoard) => {
-	const color = ['green', 'yellow', 'red'];
+	const color = ['red', 'yellow', 'green'];
 
 	const [board, setBoard] = useState(initialBoard);
 
@@ -69,7 +69,7 @@ export const useBoard = (initialBoard) => {
 		newCol.forEach((dot, rowIndex) => {
 			newBoard[rowIndex][columnIndex] = dot;
 		})
-		console.log('cycleCol => newBoard: ', newBoard);
+		// console.log('cycleCol => newBoard: ', newBoard);
 
 		// updated board state
 		updateBoard(newBoard);
