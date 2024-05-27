@@ -52,7 +52,7 @@ function App() {
 						const dotScore = getColorScore(className);
 						// console.log(`Calculate Score: ${className} = ${getColorScore(className)}`);
 						tempScore += dotScore;
-						dotScore === -1 ? logging += ` ${dotScore} ` : logging += `  ${dotScore} `;
+						dotScore === -1 ? logging += ` ${dotScore} ` : logging += `  ${dotScore} `; // extra space in else, so 2 spaces before ${dotScore}
 					}
 				})
 			})
