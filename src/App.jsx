@@ -5,10 +5,8 @@ import { useBoard } from './components/Board/useBoard.jsx';
 
 function App() {
 	const color = ['green', 'yellow', 'red'];
-	// const [board, setBoard] = useState(createBoard());
-
 	const [board, updateRow, updateCol] = useBoard(createBoard());
-	let highScore = 0;
+	const [highScore, setHighScrore] = useState(0)
 
 	// console.log('board:: ', board);
 
@@ -59,9 +57,7 @@ function App() {
 			logging += ']'
 		})
 
-		// console.log(`New Score: ${tempScore}\n${logging}\n`);
-
-		if (tempScore > highScore) highScore = tempScore;
+		if (tempScore > highScore) setHighScrore(tempScore);
 		return tempScore;
 	}
 
@@ -133,6 +129,7 @@ function App() {
 			<div className="info">
 				<p>Press the <TbRefreshDot /> button to cycle the colors for adjacent row/column.</p>
 				<p>Colors cycle: <span className="green color-text">Green</span> {'>'} <span className="red color-text">Red</span> {'>'} <span className="yellow color-text">Yellow</span></p>
+				<p>Points:  <span className="green color-text">+1</span> <span className="red color-text">-1</span> <span className="yellow color-text">0</span></p>
 			</div>
 			<div className="scores">
 				<div className="score">Score: {calculateScore(board)}</div>
